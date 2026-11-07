@@ -1,0 +1,1655 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>gohed | GoShare</title>
+  <style>
+		:root { color-scheme: light; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #1f2328; background: #ffffff; }
+		* { box-sizing: border-box; }
+		body { margin: 0; }
+		a { color: #0969da; text-decoration: none; }
+		a:hover { text-decoration: underline; }
+		.topbar { color: #f0f6fc; background: #25292e; }
+		.topbar-inner, main { width: min(1280px, calc(100% - 40px)); margin: 0 auto; }
+		.topbar-inner { display: flex; align-items: center; min-height: 64px; gap: 16px; }
+		.mark { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; color: #25292e; background: #f0f6fc; border-radius: 50%; font-weight: 800; }
+		.brand { color: #f0f6fc; font-weight: 600; }
+		.banner { padding: 42px 20px; color: #ffffff; background: #0969da; text-align: center; }
+		.banner h2 { margin: 0; font-size: clamp(32px, 7vw, 64px); letter-spacing: 0; }
+		.banner p { margin: 8px 0 0; color: #dbeafe; font-size: 15px; }
+		.repo-header { padding: 32px 0 0; border-bottom: 1px solid #d0d7de; }
+		.repo-title { display: flex; align-items: center; gap: 10px; margin: 0 0 22px; font-size: 25px; font-weight: 600; }
+		.repo-title span { color: #656d76; font-weight: 400; }
+		.repo-title a { color: #0969da; }
+		.repo-tabs { display: flex; gap: 24px; overflow-x: auto; }
+		.repo-tab { padding: 12px 2px 14px; color: #656d76; white-space: nowrap; }
+		.repo-tab.active { color: #1f2328; border-bottom: 2px solid #fd8c73; font-weight: 600; }
+		main { padding: 28px 0 64px; }
+		.toolbar { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 16px; }
+		.toolbar h2 { margin: 0; font-size: 20px; }
+		.branch { padding: 7px 12px; color: #1f2328; background: #f6f8fa; border: 1px solid #d0d7de; border-radius: 6px; font-weight: 600; }
+		.file-list { overflow: hidden; border: 1px solid #d0d7de; border-radius: 6px; }
+		.file-row { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-bottom: 1px solid #d8dee4; }
+		.file-row:last-child { border-bottom: 0; }
+		.file-row:hover { background: #f6f8fa; }
+		.file-icon { width: 20px; color: #656d76; text-align: center; }
+		.file-path { flex: 1; color: #0969da; }
+		.file-kind { color: #656d76; font-size: 13px; }
+		.readme { margin-top: 28px; border: 1px solid #d0d7de; border-radius: 6px; }
+		.readme-title { padding: 14px 20px; border-bottom: 1px solid #d0d7de; font-weight: 600; }
+		.readme-body { padding: 24px; line-height: 1.6; }
+		.summary { margin: 0; color: #656d76; }
+		.preview { margin-top: 28px; }
+		.preview h2 { margin-bottom: 16px; font-size: 20px; }
+		.file-preview { margin-top: 16px; border: 1px solid #d0d7de; border-radius: 6px; }
+		.file-preview-header { padding: 12px 16px; background: #f6f8fa; border-bottom: 1px solid #d0d7de; font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 13px; }
+		pre { overflow-x: auto; margin: 0; padding: 16px; color: #1f2328; background: #f6f8fa; font-size: 13px; line-height: 1.55; }
+		code { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; }
+		img { display: block; max-width: 100%; max-height: 560px; margin: 20px auto; object-fit: contain; }
+		.download { display: inline-block; margin: 16px; padding: 6px 12px; color: #1f2328; background: #f6f8fa; border: 1px solid #d0d7de; border-radius: 6px; font-size: 13px; font-weight: 600; }
+		@media (max-width: 640px) { .topbar-inner, main { width: min(100% - 24px, 1280px); } .repo-tabs { gap: 16px; } .file-kind { display: none; } }
+  </style>
+</head>
+<body>
+	<div class="topbar">
+		<div class="topbar-inner">
+			<span class="mark">G</span>
+			<span class="brand">GoShare</span>
+		</div>
+	</div>
+	<div class="banner">
+		<h2>GoShare</h2>
+		<p>Project workspace</p>
+	</div>
+	<div class="repo-header">
+		<div class="topbar-inner">
+			<h1 class="repo-title"><span></span> <a href="#files">gohed</a></h1>
+			<nav class="repo-tabs">
+				<a class="repo-tab active" href="#files">Code</a>
+				<a class="repo-tab" href="#readme">README</a>
+				<a class="repo-tab" href="#preview">Preview</a>
+			</nav>
+		</div>
+	</div>
+	<main>
+		<section id="files">
+			<div class="toolbar">
+				<h2>Files</h2>
+			</div>
+			<div class="file-list">
+    
+				<div class="file-row">
+					<span class="file-icon">[file]</span>
+					<a class="file-path" href="#file-0">PROJECT.md</a>
+					<span class="file-kind">code</span>
+				</div>
+    
+				<div class="file-row">
+					<span class="file-icon">[file]</span>
+					<a class="file-path" href="#file-1">kodplatform/README.md</a>
+					<span class="file-kind">code</span>
+				</div>
+    
+				<div class="file-row">
+					<span class="file-icon">[file]</span>
+					<a class="file-path" href="#file-2">kodplatform/cmd/server/main.go</a>
+					<span class="file-kind">code</span>
+				</div>
+    
+				<div class="file-row">
+					<span class="file-icon">[file]</span>
+					<a class="file-path" href="#file-3">kodplatform/go.mod</a>
+					<span class="file-kind">file</span>
+				</div>
+    
+				<div class="file-row">
+					<span class="file-icon">[file]</span>
+					<a class="file-path" href="#file-4">kodplatform/internal/api/admin_handlers.go</a>
+					<span class="file-kind">code</span>
+				</div>
+    
+				<div class="file-row">
+					<span class="file-icon">[file]</span>
+					<a class="file-path" href="#file-5">kodplatform/internal/api/api.go</a>
+					<span class="file-kind">code</span>
+				</div>
+    
+				<div class="file-row">
+					<span class="file-icon">[file]</span>
+					<a class="file-path" href="#file-6">kodplatform/internal/api/auth_handlers.go</a>
+					<span class="file-kind">code</span>
+				</div>
+    
+				<div class="file-row">
+					<span class="file-icon">[file]</span>
+					<a class="file-path" href="#file-7">kodplatform/internal/api/design_handlers.go</a>
+					<span class="file-kind">code</span>
+				</div>
+    
+				<div class="file-row">
+					<span class="file-icon">[file]</span>
+					<a class="file-path" href="#file-8">kodplatform/internal/api/git_handlers.go</a>
+					<span class="file-kind">code</span>
+				</div>
+    
+				<div class="file-row">
+					<span class="file-icon">[file]</span>
+					<a class="file-path" href="#file-9">kodplatform/internal/api/project_handlers.go</a>
+					<span class="file-kind">code</span>
+				</div>
+    
+				<div class="file-row">
+					<span class="file-icon">[file]</span>
+					<a class="file-path" href="#file-10">kodplatform/internal/api/util.go</a>
+					<span class="file-kind">code</span>
+				</div>
+    
+				<div class="file-row">
+					<span class="file-icon">[file]</span>
+					<a class="file-path" href="#file-11">kodplatform/internal/auth/auth.go</a>
+					<span class="file-kind">code</span>
+				</div>
+    
+				<div class="file-row">
+					<span class="file-icon">[file]</span>
+					<a class="file-path" href="#file-12">kodplatform/internal/auth/context.go</a>
+					<span class="file-kind">code</span>
+				</div>
+    
+				<div class="file-row">
+					<span class="file-icon">[file]</span>
+					<a class="file-path" href="#file-13">kodplatform/internal/gitserver/gitserver.go</a>
+					<span class="file-kind">code</span>
+				</div>
+    
+				<div class="file-row">
+					<span class="file-icon">[file]</span>
+					<a class="file-path" href="#file-14">kodplatform/internal/store/models.go</a>
+					<span class="file-kind">code</span>
+				</div>
+    
+				<div class="file-row">
+					<span class="file-icon">[file]</span>
+					<a class="file-path" href="#file-15">kodplatform/internal/store/store.go</a>
+					<span class="file-kind">code</span>
+				</div>
+    
+				<div class="file-row">
+					<span class="file-icon">[file]</span>
+					<a class="file-path" href="#file-16">kodplatform/kodplatform</a>
+					<span class="file-kind">file</span>
+				</div>
+    
+				<div class="file-row">
+					<span class="file-icon">[file]</span>
+					<a class="file-path" href="#file-17">kodplatform/kodplatform.zip</a>
+					<span class="file-kind">file</span>
+				</div>
+    
+			</div>
+		</section>
+		<section class="readme" id="readme">
+			<div class="readme-title">README.md</div>
+			<div class="readme-body">
+				<h2>gohed</h2>
+				<p class="summary">bu proje golang dosyalarını paylaşır</p>
+				<p><strong>Bu projeyi indirmek için:</strong></p><pre><code>go run . -share eyJkb3dubG9hZF91cmwiOiJodHRwczovL2J1ZmZhbG8tcG9ldC1kZXZpYXRpb24tbG9va3NtYXJ0LnRyeWNsb3VkZmxhcmUuY29tL2Rvd25sb2FkL19iNmZnaEc5MnNpdkhrSWpPM0dDZzFUbCIsInByb2plY3RfbmFtZSI6ImdvYWhlZCJ9</code></pre>
+			</div>
+		</section>
+		<section class="preview" id="preview">
+			<h2>File preview</h2>
+			
+			<article class="file-preview" id="file-0">
+				<div class="file-preview-header">PROJECT.md</div>
+				<pre><code># gohed
+
+bu proje golang dosyalarını paylaşır
+</code></pre>
+				
+				
+			</article>
+			
+			<article class="file-preview" id="file-1">
+				<div class="file-preview-header">kodplatform/README.md</div>
+				<pre><code># kodplatform
+
+Ekip içi kod &#43; tasarım paylaşım platformu (Gitea benzeri, kendi sunucunuzda barındırılır).
+
+## Özellikler
+
+- **Git entegrasyonu**: Yazılımcılar `git clone / push / pull` ile normal bir Git deposu gibi çalışır (smart HTTP protokolü, `git-http-backend` üzerinden).
+- **Tasarım dosyaları**: Tasarımcılar 3D modeller (.fbx, .obj, .stl, .blend, .glb...), çizimler (.psd, .ai, .sketch, .fig, .svg...) ve görselleri REST API ile yükler/indirir. Bu dosyalar Git deposundan ayrı, proje başına klasörlerde tutulur (büyük binary dosyaları Git&#39;i şişirmez).
+- **Proje yönetimi sadece admin&#39;e özel**: Proje açma, silme, açıklama/alan/üye değiştirme sadece admin rolündeki kullanıcı tarafından yapılabilir.
+- **Roller**: `admin`, `developer`, `designer`. Her projenin kendi üye listesi vardır; admin her projeye erişebilir, diğerleri yalnızca üyesi oldukları projelere.
+- **Bağımsız**: Sadece Go standart kütüphanesi kullanılır (harici paket yok), veriler JSON dosyalarında tutulur. Tek dış bağımlılık, sunucuda kurulu olan `git` komutu.
+
+## Kurulum ve Çalıştırma
+
+```bash
+go build -o kodplatform ./cmd/server
+
+KP_ADMIN_USER=admin KP_ADMIN_PASS=guclu-bir-sifre \
+KP_DATA_DIR=/var/lib/kodplatform \
+KP_LISTEN_ADDR=:8080 \
+./kodplatform
+```
+
+İlk çalıştırmada hiç admin yoksa `KP_ADMIN_USER`/`KP_ADMIN_PASS` ile otomatik admin oluşturulur.
+
+### Ortam değişkenleri
+
+| Değişken        | Açıklama                                      | Varsayılan       |
+|-----------------|------------------------------------------------|------------------|
+| `KP_DATA_DIR`   | Kullanıcı/proje meta verisi                    | `./data`         |
+| `KP_REPOS_DIR`  | Bare git depoları                              | `&lt;DATA_DIR&gt;/repos` |
+| `KP_DESIGN_DIR` | Tasarım dosyaları                              | `&lt;DATA_DIR&gt;/design` |
+| `KP_LISTEN_ADDR`| Dinlenecek adres                               | `:8080`          |
+| `KP_ADMIN_USER` | İlk admin kullanıcı adı                        | `admin`          |
+| `KP_ADMIN_PASS` | İlk admin şifresi (zorunlu, admin yoksa)       | -                |
+
+Production&#39;da bunun önüne bir **reverse proxy (nginx/caddy) &#43; HTTPS** koymanız şiddetle önerilir; Basic Auth şifreleri düz metin (TLS altında) gönderilir.
+
+## API Kullanımı
+
+### 1. Giriş yap
+
+```bash
+curl -X POST http://localhost:8080/api/login \
+  -d &#39;{&#34;username&#34;:&#34;admin&#34;,&#34;password&#34;:&#34;guclu-bir-sifre&#34;}&#39;
+# -&gt; {&#34;token&#34;: &#34;...&#34;, &#34;username&#34;: &#34;admin&#34;, &#34;role&#34;: &#34;admin&#34;}
+```
+
+Sonraki tüm isteklerde `Authorization: Bearer &lt;token&gt;` header&#39;ı gönderilir.
+
+### 2. (Admin) Kullanıcı oluştur
+
+```bash
+curl -X POST http://localhost:8080/api/admin/users \
+  -H &#34;Authorization: Bearer $TOKEN&#34; \
+  -d &#39;{&#34;username&#34;:&#34;ahmet&#34;,&#34;password&#34;:&#34;en-az-6-karakter&#34;,&#34;role&#34;:&#34;developer&#34;}&#39;
+# role: &#34;developer&#34; | &#34;designer&#34; | &#34;admin&#34;
+```
+
+### 3. (Admin) Proje oluştur
+
+```bash
+curl -X POST http://localhost:8080/api/admin/projects \
+  -H &#34;Authorization: Bearer $TOKEN&#34; \
+  -d &#39;{
+    &#34;id&#34;: &#34;mobil-oyun&#34;,
+    &#34;name&#34;: &#34;Mobil Oyun&#34;,
+    &#34;description&#34;: &#34;3D mobil oyun projesi&#34;,
+    &#34;field&#34;: &#34;oyun-gelistirme&#34;,
+    &#34;members&#34;: [&#34;ahmet&#34;, &#34;ayse&#34;]
+  }&#39;
+```
+
+`id` aynı zamanda git deposunun adıdır (küçük harf, rakam, `-`). Proje oluşturulunca otomatik olarak:
+- boş bir bare git deposu (`&lt;repos&gt;/mobil-oyun.git`)
+- boş bir tasarım klasörü (`&lt;design&gt;/mobil-oyun/`)
+oluşturulur.
+
+Admin ayrıca `DELETE /api/admin/projects/{id}` ile projeyi (deposu &#43; tasarım dosyalarıyla birlikte) siler, `PATCH /api/admin/projects/{id}` ile bilgi/üye günceller.
+
+### 4. Kod: git clone / push / pull
+
+```bash
+git clone http://ahmet:en-az-6-karakter@localhost:8080/git/mobil-oyun.git
+cd mobil-oyun
+# ... değişiklik yap ...
+git add . &amp;&amp; git commit -m &#34;özellik ekle&#34;
+git push
+```
+
+Git istemcisi kimliğini **Basic Auth** ile gönderir (kullanıcı adı &#43; platform şifresi). Sunucu, kullanıcının bu projenin üyesi (veya admin) olduğunu kontrol eder.
+
+### 5. Tasarım: 3D model / çizim yükleme
+
+```bash
+# Yükle
+curl -X POST http://localhost:8080/api/projects/mobil-oyun/design \
+  -H &#34;Authorization: Bearer $TOKEN&#34; \
+  -F &#34;file=@karakter.fbx&#34;
+
+# Listele
+curl http://localhost:8080/api/projects/mobil-oyun/design \
+  -H &#34;Authorization: Bearer $TOKEN&#34;
+
+# İndir
+curl -O http://localhost:8080/api/projects/mobil-oyun/design/karakter.fbx \
+  -H &#34;Authorization: Bearer $TOKEN&#34;
+
+# Sil
+curl -X DELETE http://localhost:8080/api/projects/mobil-oyun/design/karakter.fbx \
+  -H &#34;Authorization: Bearer $TOKEN&#34;
+```
+
+İzin verilen uzantılar `internal/api/design_handlers.go` içindeki `allowedDesignExt` listesinden genişletilebilir.
+
+## Proje yapısı
+
+```
+cmd/server/main.go            giriş noktası, yapılandırma, ilk admin
+internal/store/                kullanıcı/proje veri modeli &#43; JSON depolama
+internal/auth/                 bearer-token oturum yönetimi, admin kontrolü
+internal/gitserver/             bare repo oluşturma/silme, git-http-backend sarmalayıcı
+internal/api/                  HTTP route&#39;lar ve tüm handler&#39;lar
+```
+
+## Notlar / genişletme fikirleri
+
+- Şu an kimlik doğrulama basit `sha256(salt&#43;şifre)` ile yapılıyor; gerçek üretimde `golang.org/x/crypto/bcrypt` eklemek isteyebilirsiniz (bu proje bilinçli olarak sıfır harici bağımlılıkla tutuldu).
+- Web arayüzü (dosya tarayıcı, commit geçmişi görüntüleme vb.) yok — bu bir API/backend&#39;dir. İsterseniz üstüne basit bir SPA eklenebilir.
+- SSH tabanlı git erişimi (git@sunucu:proje.git) eklemek isterseniz `internal/gitserver` içine bir SSH sunucusu (örn. `golang.org/x/crypto/ssh`) eklenmesi gerekir.
+</code></pre>
+				
+				
+			</article>
+			
+			<article class="file-preview" id="file-2">
+				<div class="file-preview-header">kodplatform/cmd/server/main.go</div>
+				<pre><code>// kodplatform-server: Ekip içi kod &#43; tasarım paylaşım platformu.
+//
+// - Yazılımcılar: git clone/push/pull ile koda katkı sağlar.
+// - Tasarımcılar: 3D model / çizim dosyalarını REST API üzerinden yükler.
+// - Proje açma/silme/düzenleme sadece admin kullanıcıya özeldir.
+//
+// Ortam değişkenleri:
+//
+//	KP_DATA_DIR      Kullanıcı/proje meta verisinin tutulduğu klasör (varsayılan: ./data)
+//	KP_REPOS_DIR     Bare git depolarının tutulduğu klasör (varsayılan: ./data/repos)
+//	KP_DESIGN_DIR    Tasarım dosyalarının tutulduğu klasör (varsayılan: ./data/design)
+//	KP_LISTEN_ADDR   Dinlenecek adres (varsayılan: :8080)
+//	KP_ADMIN_USER    İlk kurulumda oluşturulacak admin kullanıcı adı (varsayılan: admin)
+//	KP_ADMIN_PASS    İlk kurulumda oluşturulacak admin şifresi (zorunlu, admin daha önce yoksa)
+package main
+
+import (
+	&#34;errors&#34;
+	&#34;log&#34;
+	&#34;net/http&#34;
+	&#34;os&#34;
+
+	&#34;kodplatform/internal/api&#34;
+	&#34;kodplatform/internal/auth&#34;
+	&#34;kodplatform/internal/gitserver&#34;
+	&#34;kodplatform/internal/store&#34;
+)
+
+func env(key, def string) string {
+	if v := os.Getenv(key); v != &#34;&#34; {
+		return v
+	}
+	return def
+}
+
+func main() {
+	dataDir := env(&#34;KP_DATA_DIR&#34;, &#34;./data&#34;)
+	reposDir := env(&#34;KP_REPOS_DIR&#34;, dataDir&#43;&#34;/repos&#34;)
+	designDir := env(&#34;KP_DESIGN_DIR&#34;, dataDir&#43;&#34;/design&#34;)
+	listenAddr := env(&#34;KP_LISTEN_ADDR&#34;, &#34;:8080&#34;)
+
+	st, err := store.New(dataDir)
+	if err != nil {
+		log.Fatalf(&#34;depolama başlatılamadı: %v&#34;, err)
+	}
+
+	if err := os.MkdirAll(designDir, 0755); err != nil {
+		log.Fatalf(&#34;tasarım klasörü oluşturulamadı: %v&#34;, err)
+	}
+
+	git, err := gitserver.New(reposDir)
+	if err != nil {
+		log.Fatalf(&#34;git sunucusu başlatılamadı: %v&#34;, err)
+	}
+
+	ensureInitialAdmin(st)
+
+	authMgr := auth.NewManager(st)
+	a := api.New(st, authMgr, git, designDir)
+
+	log.Printf(&#34;kodplatform %s adresinde dinliyor&#34;, listenAddr)
+	log.Printf(&#34;veri klasörü: %s | git depoları: %s | tasarım dosyaları: %s&#34;, dataDir, reposDir, designDir)
+	if err := http.ListenAndServe(listenAddr, a.Routes()); err != nil {
+		log.Fatal(err)
+	}
+}
+
+// ensureInitialAdmin, hiç admin kullanıcı yoksa KP_ADMIN_USER/KP_ADMIN_PASS
+// ortam değişkenlerinden ilk admin hesabını oluşturur.
+func ensureInitialAdmin(st *store.Store) {
+	for _, u := range st.ListUsers() {
+		if u.Role == store.RoleAdmin {
+			return // zaten bir admin var
+		}
+	}
+	username := env(&#34;KP_ADMIN_USER&#34;, &#34;admin&#34;)
+	password := os.Getenv(&#34;KP_ADMIN_PASS&#34;)
+	if password == &#34;&#34; {
+		log.Println(&#34;UYARI: Hiç admin kullanıcı yok ve KP_ADMIN_PASS tanımlı değil.&#34;)
+		log.Println(&#34;İlk admini oluşturmak için KP_ADMIN_USER ve KP_ADMIN_PASS ile yeniden başlatın.&#34;)
+		return
+	}
+	_, err := st.CreateUser(username, password, store.RoleAdmin)
+	if err != nil &amp;&amp; !errors.Is(err, store.ErrAlreadyExists) {
+		log.Fatalf(&#34;ilk admin oluşturulamadı: %v&#34;, err)
+	}
+	log.Printf(&#34;ilk admin kullanıcı oluşturuldu: %s&#34;, username)
+}
+</code></pre>
+				
+				
+			</article>
+			
+			<article class="file-preview" id="file-3">
+				<div class="file-preview-header">kodplatform/go.mod</div>
+				
+				
+				<a class="download" href="kodplatform/go.mod" download>Download file</a>
+			</article>
+			
+			<article class="file-preview" id="file-4">
+				<div class="file-preview-header">kodplatform/internal/api/admin_handlers.go</div>
+				<pre><code>package api
+
+import (
+	&#34;errors&#34;
+	&#34;net/http&#34;
+	&#34;regexp&#34;
+
+	&#34;kodplatform/internal/store&#34;
+)
+
+var slugRe = regexp.MustCompile(`^[a-z0-9]([a-z0-9-]{0,62}[a-z0-9])?$`)
+
+// ---- Kullanıcı yönetimi ----
+
+type createUserRequest struct {
+	Username string `json:&#34;username&#34;`
+	Password string `json:&#34;password&#34;`
+	Role     string `json:&#34;role&#34;` // &#34;developer&#34; | &#34;designer&#34; | &#34;admin&#34;
+}
+
+func (a *API) handleAdminCreateUser(w http.ResponseWriter, r *http.Request) {
+	var req createUserRequest
+	if err := decodeJSON(r, &amp;req); err != nil {
+		writeError(w, http.StatusBadRequest, &#34;geçersiz istek gövdesi&#34;)
+		return
+	}
+	role := store.Role(req.Role)
+	switch role {
+	case store.RoleAdmin, store.RoleDeveloper, store.RoleDesigner:
+	default:
+		writeError(w, http.StatusBadRequest, &#34;role şu değerlerden biri olmalı: admin, developer, designer&#34;)
+		return
+	}
+	if req.Username == &#34;&#34; || len(req.Password) &lt; 6 {
+		writeError(w, http.StatusBadRequest, &#34;kullanıcı adı zorunlu, şifre en az 6 karakter olmalı&#34;)
+		return
+	}
+	u, err := a.st.CreateUser(req.Username, req.Password, role)
+	if errors.Is(err, store.ErrAlreadyExists) {
+		writeError(w, http.StatusConflict, &#34;bu kullanıcı adı zaten kullanılıyor&#34;)
+		return
+	} else if err != nil {
+		writeError(w, http.StatusInternalServerError, err.Error())
+		return
+	}
+	writeJSON(w, http.StatusCreated, map[string]string{&#34;username&#34;: u.Username, &#34;role&#34;: string(u.Role)})
+}
+
+func (a *API) handleAdminListUsers(w http.ResponseWriter, r *http.Request) {
+	users := a.st.ListUsers()
+	out := make([]map[string]string, 0, len(users))
+	for _, u := range users {
+		out = append(out, map[string]string{&#34;username&#34;: u.Username, &#34;role&#34;: string(u.Role)})
+	}
+	writeJSON(w, http.StatusOK, out)
+}
+
+func (a *API) handleAdminDeleteUser(w http.ResponseWriter, r *http.Request) {
+	username := r.PathValue(&#34;username&#34;)
+	if err := a.st.DeleteUser(username); errors.Is(err, store.ErrNotFound) {
+		writeError(w, http.StatusNotFound, &#34;kullanıcı bulunamadı&#34;)
+		return
+	} else if err != nil {
+		writeError(w, http.StatusInternalServerError, err.Error())
+		return
+	}
+	w.WriteHeader(http.StatusNoContent)
+}
+
+// ---- Proje yönetimi ----
+
+type createProjectRequest struct {
+	ID          string   `json:&#34;id&#34;`          // örn: &#34;mobil-uygulama-x&#34; (git deposu bu isimle oluşur)
+	Name        string   `json:&#34;name&#34;`
+	Description string   `json:&#34;description&#34;`
+	Field       string   `json:&#34;field&#34;`
+	Members     []string `json:&#34;members&#34;`
+}
+
+func (a *API) handleAdminCreateProject(w http.ResponseWriter, r *http.Request) {
+	var req createProjectRequest
+	if err := decodeJSON(r, &amp;req); err != nil {
+		writeError(w, http.StatusBadRequest, &#34;geçersiz istek gövdesi&#34;)
+		return
+	}
+	if !slugRe.MatchString(req.ID) {
+		writeError(w, http.StatusBadRequest, &#34;id sadece küçük harf, rakam ve &#39;-&#39; içerebilir (örn: mobil-uygulama-x)&#34;)
+		return
+	}
+	// Üye olarak eklenen kullanıcıların gerçekten var olduğunu doğrula.
+	for _, m := range req.Members {
+		if _, ok := a.st.GetUser(m); !ok {
+			writeError(w, http.StatusBadRequest, &#34;tanımsız kullanıcı üye olarak eklenemez: &#34;&#43;m)
+			return
+		}
+	}
+	p, err := a.st.CreateProject(req.ID, req.Name, req.Description, req.Field, req.Members)
+	if errors.Is(err, store.ErrAlreadyExists) {
+		writeError(w, http.StatusConflict, &#34;bu id ile bir proje zaten var&#34;)
+		return
+	} else if err != nil {
+		writeError(w, http.StatusInternalServerError, err.Error())
+		return
+	}
+	if err := a.git.CreateRepo(p.ID); err != nil {
+		_ = a.st.DeleteProject(p.ID) // tutarlılık için geri al
+		writeError(w, http.StatusInternalServerError, &#34;git deposu oluşturulamadı: &#34;&#43;err.Error())
+		return
+	}
+	if err := a.ensureDesignDir(p.ID); err != nil {
+		writeError(w, http.StatusInternalServerError, &#34;tasarım klasörü oluşturulamadı: &#34;&#43;err.Error())
+		return
+	}
+	writeJSON(w, http.StatusCreated, p)
+}
+
+func (a *API) handleAdminDeleteProject(w http.ResponseWriter, r *http.Request) {
+	id := r.PathValue(&#34;id&#34;)
+	if err := a.st.DeleteProject(id); errors.Is(err, store.ErrNotFound) {
+		writeError(w, http.StatusNotFound, &#34;proje bulunamadı&#34;)
+		return
+	} else if err != nil {
+		writeError(w, http.StatusInternalServerError, err.Error())
+		return
+	}
+	if err := a.git.DeleteRepo(id); err != nil {
+		writeError(w, http.StatusInternalServerError, &#34;git deposu silinemedi: &#34;&#43;err.Error())
+		return
+	}
+	if err := a.removeDesignDir(id); err != nil {
+		writeError(w, http.StatusInternalServerError, &#34;tasarım klasörü silinemedi: &#34;&#43;err.Error())
+		return
+	}
+	w.WriteHeader(http.StatusNoContent)
+}
+
+type updateProjectRequest struct {
+	Name        *string   `json:&#34;name&#34;`
+	Description *string   `json:&#34;description&#34;`
+	Field       *string   `json:&#34;field&#34;`
+	Members     *[]string `json:&#34;members&#34;`
+}
+
+func (a *API) handleAdminUpdateProject(w http.ResponseWriter, r *http.Request) {
+	id := r.PathValue(&#34;id&#34;)
+	var req updateProjectRequest
+	if err := decodeJSON(r, &amp;req); err != nil {
+		writeError(w, http.StatusBadRequest, &#34;geçersiz istek gövdesi&#34;)
+		return
+	}
+	if req.Members != nil {
+		for _, m := range *req.Members {
+			if _, ok := a.st.GetUser(m); !ok {
+				writeError(w, http.StatusBadRequest, &#34;tanımsız kullanıcı üye olarak eklenemez: &#34;&#43;m)
+				return
+			}
+		}
+	}
+	p, err := a.st.UpdateProject(id, req.Name, req.Description, req.Field, req.Members)
+	if errors.Is(err, store.ErrNotFound) {
+		writeError(w, http.StatusNotFound, &#34;proje bulunamadı&#34;)
+		return
+	} else if err != nil {
+		writeError(w, http.StatusInternalServerError, err.Error())
+		return
+	}
+	writeJSON(w, http.StatusOK, p)
+}
+</code></pre>
+				
+				
+			</article>
+			
+			<article class="file-preview" id="file-5">
+				<div class="file-preview-header">kodplatform/internal/api/api.go</div>
+				<pre><code>// Package api, HTTP yönlendirmelerini (routing) ve tüm handler&#39;ları bir araya
+// getiren ana katmandır.
+package api
+
+import (
+	&#34;net/http&#34;
+
+	&#34;kodplatform/internal/auth&#34;
+	&#34;kodplatform/internal/gitserver&#34;
+	&#34;kodplatform/internal/store&#34;
+)
+
+type API struct {
+	st         *store.Store
+	authMgr    *auth.Manager
+	git        *gitserver.Server
+	designRoot string
+}
+
+func New(st *store.Store, authMgr *auth.Manager, git *gitserver.Server, designRoot string) *API {
+	return &amp;API{st: st, authMgr: authMgr, git: git, designRoot: designRoot}
+}
+
+func (a *API) Routes() http.Handler {
+	mux := http.NewServeMux()
+
+	// --- Kimlik doğrulama ---
+	mux.HandleFunc(&#34;POST /api/login&#34;, a.handleLogin)
+	mux.Handle(&#34;POST /api/logout&#34;, a.authMgr.RequireUser(http.HandlerFunc(a.handleLogout)))
+	mux.Handle(&#34;GET /api/me&#34;, a.authMgr.RequireUser(http.HandlerFunc(a.handleMe)))
+
+	// --- Sadece admin: kullanıcı yönetimi ---
+	mux.Handle(&#34;POST /api/admin/users&#34;, a.authMgr.RequireAdmin(http.HandlerFunc(a.handleAdminCreateUser)))
+	mux.Handle(&#34;GET /api/admin/users&#34;, a.authMgr.RequireAdmin(http.HandlerFunc(a.handleAdminListUsers)))
+	mux.Handle(&#34;DELETE /api/admin/users/{username}&#34;, a.authMgr.RequireAdmin(http.HandlerFunc(a.handleAdminDeleteUser)))
+
+	// --- Sadece admin: proje açma/silme/düzenleme ---
+	mux.Handle(&#34;POST /api/admin/projects&#34;, a.authMgr.RequireAdmin(http.HandlerFunc(a.handleAdminCreateProject)))
+	mux.Handle(&#34;DELETE /api/admin/projects/{id}&#34;, a.authMgr.RequireAdmin(http.HandlerFunc(a.handleAdminDeleteProject)))
+	mux.Handle(&#34;PATCH /api/admin/projects/{id}&#34;, a.authMgr.RequireAdmin(http.HandlerFunc(a.handleAdminUpdateProject)))
+
+	// --- Giriş yapmış herkes (yetkisi olduğu projeler için) ---
+	mux.Handle(&#34;GET /api/projects&#34;, a.authMgr.RequireUser(http.HandlerFunc(a.handleListProjects)))
+	mux.Handle(&#34;GET /api/projects/{id}&#34;, a.authMgr.RequireUser(http.HandlerFunc(a.handleGetProject)))
+
+	// --- Tasarım dosyaları (3D model, çizim vb.) ---
+	mux.Handle(&#34;POST /api/projects/{id}/design&#34;, a.authMgr.RequireUser(http.HandlerFunc(a.handleUploadDesign)))
+	mux.Handle(&#34;GET /api/projects/{id}/design&#34;, a.authMgr.RequireUser(http.HandlerFunc(a.handleListDesign)))
+	mux.Handle(&#34;GET /api/projects/{id}/design/{filename}&#34;, a.authMgr.RequireUser(http.HandlerFunc(a.handleDownloadDesign)))
+	mux.Handle(&#34;DELETE /api/projects/{id}/design/{filename}&#34;, a.authMgr.RequireUser(http.HandlerFunc(a.handleDeleteDesign)))
+
+	// --- Git smart HTTP (clone/fetch/push) — kendi Basic Auth kontrolünü yapar ---
+	mux.HandleFunc(&#34;/git/&#34;, a.handleGit)
+
+	return mux
+}
+</code></pre>
+				
+				
+			</article>
+			
+			<article class="file-preview" id="file-6">
+				<div class="file-preview-header">kodplatform/internal/api/auth_handlers.go</div>
+				<pre><code>package api
+
+import (
+	&#34;net/http&#34;
+
+	&#34;kodplatform/internal/auth&#34;
+)
+
+type loginRequest struct {
+	Username string `json:&#34;username&#34;`
+	Password string `json:&#34;password&#34;`
+}
+
+type loginResponse struct {
+	Token    string `json:&#34;token&#34;`
+	Username string `json:&#34;username&#34;`
+	Role     string `json:&#34;role&#34;`
+}
+
+func (a *API) handleLogin(w http.ResponseWriter, r *http.Request) {
+	var req loginRequest
+	if err := decodeJSON(r, &amp;req); err != nil {
+		writeError(w, http.StatusBadRequest, &#34;geçersiz istek gövdesi&#34;)
+		return
+	}
+	tok, u, ok := a.authMgr.Login(req.Username, req.Password)
+	if !ok {
+		writeError(w, http.StatusUnauthorized, &#34;kullanıcı adı veya şifre hatalı&#34;)
+		return
+	}
+	writeJSON(w, http.StatusOK, loginResponse{Token: tok, Username: u.Username, Role: string(u.Role)})
+}
+
+func (a *API) handleLogout(w http.ResponseWriter, r *http.Request) {
+	tok := r.Header.Get(&#34;Authorization&#34;)
+	if len(tok) &gt; 7 &amp;&amp; tok[:7] == &#34;Bearer &#34; {
+		tok = tok[7:]
+	}
+	a.authMgr.Logout(tok)
+	w.WriteHeader(http.StatusNoContent)
+}
+
+func (a *API) handleMe(w http.ResponseWriter, r *http.Request) {
+	u := auth.UserFromContext(r.Context())
+	writeJSON(w, http.StatusOK, map[string]string{
+		&#34;username&#34;: u.Username,
+		&#34;role&#34;:     string(u.Role),
+	})
+}
+</code></pre>
+				
+				
+			</article>
+			
+			<article class="file-preview" id="file-7">
+				<div class="file-preview-header">kodplatform/internal/api/design_handlers.go</div>
+				<pre><code>package api
+
+import (
+	&#34;fmt&#34;
+	&#34;io&#34;
+	&#34;net/http&#34;
+	&#34;os&#34;
+	&#34;path/filepath&#34;
+	&#34;strings&#34;
+
+	&#34;kodplatform/internal/auth&#34;
+)
+
+// İzin verilen tasarım dosyası uzantıları (3D modeller, çizimler, görseller vb.)
+// Kod dosyaları buradan değil git deposundan yönetilir; bu ayrım kasıtlıdır.
+var allowedDesignExt = map[string]bool{
+	&#34;.fbx&#34;: true, &#34;.obj&#34;: true, &#34;.stl&#34;: true, &#34;.blend&#34;: true, &#34;.glb&#34;: true, &#34;.gltf&#34;: true,
+	&#34;.psd&#34;: true, &#34;.ai&#34;: true, &#34;.sketch&#34;: true, &#34;.fig&#34;: true,
+	&#34;.png&#34;: true, &#34;.jpg&#34;: true, &#34;.jpeg&#34;: true, &#34;.svg&#34;: true, &#34;.pdf&#34;: true,
+	&#34;.zip&#34;: true, // birden çok dosyayı arşivleyip yüklemek için
+}
+
+const maxUploadSize = 500 &lt;&lt; 20 // 500 MB
+
+func (a *API) ensureDesignDir(projectID string) error {
+	return os.MkdirAll(filepath.Join(a.designRoot, projectID), 0755)
+}
+
+func (a *API) removeDesignDir(projectID string) error {
+	return os.RemoveAll(filepath.Join(a.designRoot, projectID))
+}
+
+// requireProjectAccess ortak erişim kontrolünü yapar; başarısızsa yanıtı yazıp false döner.
+func (a *API) requireProjectAccess(w http.ResponseWriter, r *http.Request) (projectID string, ok bool) {
+	u := auth.UserFromContext(r.Context())
+	id := r.PathValue(&#34;id&#34;)
+	p, exists := a.st.GetProject(id)
+	if !exists {
+		writeError(w, http.StatusNotFound, &#34;proje bulunamadı&#34;)
+		return &#34;&#34;, false
+	}
+	if !canAccess(u, p) {
+		writeError(w, http.StatusForbidden, &#34;bu projeye erişim yetkiniz yok&#34;)
+		return &#34;&#34;, false
+	}
+	return id, true
+}
+
+// safeFilename, dizin gezinme (path traversal) saldırılarına karşı dosya adını temizler.
+func safeFilename(name string) (string, error) {
+	base := filepath.Base(name)
+	if base == &#34;.&#34; || base == &#34;/&#34; || base == &#34;&#34; || strings.Contains(name, &#34;..&#34;) {
+		return &#34;&#34;, fmt.Errorf(&#34;geçersiz dosya adı&#34;)
+	}
+	return base, nil
+}
+
+func (a *API) handleUploadDesign(w http.ResponseWriter, r *http.Request) {
+	projectID, ok := a.requireProjectAccess(w, r)
+	if !ok {
+		return
+	}
+	r.Body = http.MaxBytesReader(w, r.Body, maxUploadSize)
+	if err := r.ParseMultipartForm(32 &lt;&lt; 20); err != nil {
+		writeError(w, http.StatusBadRequest, &#34;form ayrıştırılamadı (dosya çok mu büyük?): &#34;&#43;err.Error())
+		return
+	}
+	file, header, err := r.FormFile(&#34;file&#34;)
+	if err != nil {
+		writeError(w, http.StatusBadRequest, &#34;&#39;file&#39; alanında bir dosya bekleniyor&#34;)
+		return
+	}
+	defer file.Close()
+
+	name, err := safeFilename(header.Filename)
+	if err != nil {
+		writeError(w, http.StatusBadRequest, err.Error())
+		return
+	}
+	ext := strings.ToLower(filepath.Ext(name))
+	if !allowedDesignExt[ext] {
+		writeError(w, http.StatusBadRequest, &#34;izin verilmeyen dosya türü: &#34;&#43;ext)
+		return
+	}
+
+	dstPath := filepath.Join(a.designRoot, projectID, name)
+	dst, err := os.Create(dstPath)
+	if err != nil {
+		writeError(w, http.StatusInternalServerError, &#34;dosya kaydedilemedi: &#34;&#43;err.Error())
+		return
+	}
+	defer dst.Close()
+	if _, err := io.Copy(dst, file); err != nil {
+		writeError(w, http.StatusInternalServerError, &#34;dosya yazılamadı: &#34;&#43;err.Error())
+		return
+	}
+	writeJSON(w, http.StatusCreated, map[string]string{&#34;filename&#34;: name})
+}
+
+func (a *API) handleListDesign(w http.ResponseWriter, r *http.Request) {
+	projectID, ok := a.requireProjectAccess(w, r)
+	if !ok {
+		return
+	}
+	entries, err := os.ReadDir(filepath.Join(a.designRoot, projectID))
+	if err != nil {
+		writeError(w, http.StatusInternalServerError, err.Error())
+		return
+	}
+	type fileInfo struct {
+		Name string `json:&#34;name&#34;`
+		Size int64  `json:&#34;size&#34;`
+	}
+	out := make([]fileInfo, 0, len(entries))
+	for _, e := range entries {
+		if e.IsDir() {
+			continue
+		}
+		info, err := e.Info()
+		if err != nil {
+			continue
+		}
+		out = append(out, fileInfo{Name: e.Name(), Size: info.Size()})
+	}
+	writeJSON(w, http.StatusOK, out)
+}
+
+func (a *API) handleDownloadDesign(w http.ResponseWriter, r *http.Request) {
+	projectID, ok := a.requireProjectAccess(w, r)
+	if !ok {
+		return
+	}
+	name, err := safeFilename(r.PathValue(&#34;filename&#34;))
+	if err != nil {
+		writeError(w, http.StatusBadRequest, err.Error())
+		return
+	}
+	path := filepath.Join(a.designRoot, projectID, name)
+	if _, err := os.Stat(path); err != nil {
+		writeError(w, http.StatusNotFound, &#34;dosya bulunamadı&#34;)
+		return
+	}
+	w.Header().Set(&#34;Content-Disposition&#34;, `attachment; filename=&#34;`&#43;name&#43;`&#34;`)
+	http.ServeFile(w, r, path)
+}
+
+func (a *API) handleDeleteDesign(w http.ResponseWriter, r *http.Request) {
+	projectID, ok := a.requireProjectAccess(w, r)
+	if !ok {
+		return
+	}
+	name, err := safeFilename(r.PathValue(&#34;filename&#34;))
+	if err != nil {
+		writeError(w, http.StatusBadRequest, err.Error())
+		return
+	}
+	path := filepath.Join(a.designRoot, projectID, name)
+	if err := os.Remove(path); err != nil {
+		writeError(w, http.StatusNotFound, &#34;dosya bulunamadı&#34;)
+		return
+	}
+	w.WriteHeader(http.StatusNoContent)
+}
+</code></pre>
+				
+				
+			</article>
+			
+			<article class="file-preview" id="file-8">
+				<div class="file-preview-header">kodplatform/internal/api/git_handlers.go</div>
+				<pre><code>package api
+
+import (
+	&#34;net/http&#34;
+	&#34;strings&#34;
+
+	&#34;kodplatform/internal/store&#34;
+)
+
+// handleGit, &#34;git clone/fetch/push http://.../git/&lt;proje-id&gt;.git&#34; isteklerini
+// karşılar. Git istemcisi kimlik bilgilerini HTTP Basic Auth ile gönderir;
+// burada doğrulanır ve kullanıcının bu projeye erişimi olup olmadığı kontrol
+// edilir, ardından istek git-http-backend&#39;e devredilir.
+func (a *API) handleGit(w http.ResponseWriter, r *http.Request) {
+	username, password, hasAuth := r.BasicAuth()
+	if !hasAuth || !a.st.VerifyPassword(username, password) {
+		w.Header().Set(&#34;WWW-Authenticate&#34;, `Basic realm=&#34;kodplatform git&#34;`)
+		writeError(w, http.StatusUnauthorized, &#34;git kimlik doğrulaması başarısız&#34;)
+		return
+	}
+	user, _ := a.st.GetUser(username)
+
+	projectID := extractProjectID(r.URL.Path)
+	if projectID == &#34;&#34; {
+		writeError(w, http.StatusBadRequest, &#34;geçersiz git yolu&#34;)
+		return
+	}
+	p, ok := a.st.GetProject(projectID)
+	if !ok {
+		writeError(w, http.StatusNotFound, &#34;proje bulunamadı&#34;)
+		return
+	}
+	if user.Role != store.RoleAdmin &amp;&amp; !p.HasMember(user.Username) {
+		writeError(w, http.StatusForbidden, &#34;bu projenin git deposuna erişim yetkiniz yok&#34;)
+		return
+	}
+
+	a.git.Handler(username).ServeHTTP(w, r)
+}
+
+// extractProjectID &#34;/git/&lt;id&gt;.git/...&#34; yolundan proje id&#39;sini çıkarır.
+func extractProjectID(path string) string {
+	path = strings.TrimPrefix(path, &#34;/git/&#34;)
+	idx := strings.Index(path, &#34;.git&#34;)
+	if idx &lt; 0 {
+		return &#34;&#34;
+	}
+	return path[:idx]
+}
+</code></pre>
+				
+				
+			</article>
+			
+			<article class="file-preview" id="file-9">
+				<div class="file-preview-header">kodplatform/internal/api/project_handlers.go</div>
+				<pre><code>package api
+
+import (
+	&#34;net/http&#34;
+
+	&#34;kodplatform/internal/auth&#34;
+	&#34;kodplatform/internal/store&#34;
+)
+
+// canAccess: admin her projeye erişebilir; diğerleri sadece üyesi olduğu projelere.
+func canAccess(u *store.User, p *store.Project) bool {
+	return u.Role == store.RoleAdmin || p.HasMember(u.Username)
+}
+
+func (a *API) handleListProjects(w http.ResponseWriter, r *http.Request) {
+	u := auth.UserFromContext(r.Context())
+	all := a.st.ListProjects()
+	out := make([]*store.Project, 0, len(all))
+	for _, p := range all {
+		if canAccess(u, p) {
+			out = append(out, p)
+		}
+	}
+	writeJSON(w, http.StatusOK, out)
+}
+
+func (a *API) handleGetProject(w http.ResponseWriter, r *http.Request) {
+	u := auth.UserFromContext(r.Context())
+	id := r.PathValue(&#34;id&#34;)
+	p, ok := a.st.GetProject(id)
+	if !ok {
+		writeError(w, http.StatusNotFound, &#34;proje bulunamadı&#34;)
+		return
+	}
+	if !canAccess(u, p) {
+		writeError(w, http.StatusForbidden, &#34;bu projeye erişim yetkiniz yok&#34;)
+		return
+	}
+	cloneURL := &#34;/git/&#34; &#43; p.ID &#43; &#34;.git&#34;
+	writeJSON(w, http.StatusOK, map[string]interface{}{
+		&#34;project&#34;:   p,
+		&#34;clone_url&#34;: cloneURL,
+	})
+}
+</code></pre>
+				
+				
+			</article>
+			
+			<article class="file-preview" id="file-10">
+				<div class="file-preview-header">kodplatform/internal/api/util.go</div>
+				<pre><code>package api
+
+import (
+	&#34;encoding/json&#34;
+	&#34;net/http&#34;
+)
+
+func writeJSON(w http.ResponseWriter, status int, v interface{}) {
+	w.Header().Set(&#34;Content-Type&#34;, &#34;application/json; charset=utf-8&#34;)
+	w.WriteHeader(status)
+	_ = json.NewEncoder(w).Encode(v)
+}
+
+func writeError(w http.ResponseWriter, status int, msg string) {
+	writeJSON(w, status, map[string]string{&#34;error&#34;: msg})
+}
+
+func decodeJSON(r *http.Request, v interface{}) error {
+	dec := json.NewDecoder(r.Body)
+	dec.DisallowUnknownFields()
+	return dec.Decode(v)
+}
+</code></pre>
+				
+				
+			</article>
+			
+			<article class="file-preview" id="file-11">
+				<div class="file-preview-header">kodplatform/internal/auth/auth.go</div>
+				<pre><code>// Package auth, web API için basit bir bearer-token oturum mekanizması
+// sağlar. Git işlemleri (clone/push/pull) için ise HTTP Basic Auth
+// kullanılır (git istemcileri bunu doğal olarak destekler).
+package auth
+
+import (
+	&#34;crypto/rand&#34;
+	&#34;encoding/hex&#34;
+	&#34;net/http&#34;
+	&#34;strings&#34;
+	&#34;sync&#34;
+	&#34;time&#34;
+
+	&#34;kodplatform/internal/store&#34;
+)
+
+type session struct {
+	username string
+	expires  time.Time
+}
+
+type Manager struct {
+	mu       sync.Mutex
+	sessions map[string]session
+	st       *store.Store
+	ttl      time.Duration
+}
+
+func NewManager(st *store.Store) *Manager {
+	m := &amp;Manager{
+		sessions: map[string]session{},
+		st:       st,
+		ttl:      12 * time.Hour,
+	}
+	go m.cleanupLoop()
+	return m
+}
+
+func (m *Manager) cleanupLoop() {
+	for range time.Tick(time.Hour) {
+		m.mu.Lock()
+		now := time.Now()
+		for tok, s := range m.sessions {
+			if now.After(s.expires) {
+				delete(m.sessions, tok)
+			}
+		}
+		m.mu.Unlock()
+	}
+}
+
+func newToken() (string, error) {
+	b := make([]byte, 24)
+	if _, err := rand.Read(b); err != nil {
+		return &#34;&#34;, err
+	}
+	return hex.EncodeToString(b), nil
+}
+
+// Login kullanıcı adı/şifreyi doğrular ve bir oturum token&#39;ı döndürür.
+func (m *Manager) Login(username, password string) (string, *store.User, bool) {
+	if !m.st.VerifyPassword(username, password) {
+		return &#34;&#34;, nil, false
+	}
+	u, _ := m.st.GetUser(username)
+	tok, err := newToken()
+	if err != nil {
+		return &#34;&#34;, nil, false
+	}
+	m.mu.Lock()
+	m.sessions[tok] = session{username: username, expires: time.Now().Add(m.ttl)}
+	m.mu.Unlock()
+	return tok, u, true
+}
+
+func (m *Manager) Logout(token string) {
+	m.mu.Lock()
+	delete(m.sessions, token)
+	m.mu.Unlock()
+}
+
+// UserFromToken token&#39;a karşılık gelen kullanıcıyı döndürür.
+func (m *Manager) UserFromToken(token string) (*store.User, bool) {
+	m.mu.Lock()
+	s, ok := m.sessions[token]
+	m.mu.Unlock()
+	if !ok || time.Now().After(s.expires) {
+		return nil, false
+	}
+	return m.st.GetUser(s.username)
+}
+
+func bearerToken(r *http.Request) string {
+	h := r.Header.Get(&#34;Authorization&#34;)
+	if strings.HasPrefix(h, &#34;Bearer &#34;) {
+		return strings.TrimPrefix(h, &#34;Bearer &#34;)
+	}
+	// Kolaylık olsun diye X-Auth-Token header&#39;ı da desteklenir.
+	return r.Header.Get(&#34;X-Auth-Token&#34;)
+}
+
+// RequireUser, geçerli bir oturum token&#39;ı arar ve context&#39;e kullanıcıyı ekler.
+type ctxKey string
+
+const userCtxKey ctxKey = &#34;user&#34;
+
+func (m *Manager) RequireUser(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		tok := bearerToken(r)
+		if tok == &#34;&#34; {
+			http.Error(w, &#34;yetkisiz: token eksik&#34;, http.StatusUnauthorized)
+			return
+		}
+		u, ok := m.UserFromToken(tok)
+		if !ok {
+			http.Error(w, &#34;yetkisiz: geçersiz veya süresi dolmuş token&#34;, http.StatusUnauthorized)
+			return
+		}
+		ctx := WithUser(r.Context(), u)
+		next.ServeHTTP(w, r.WithContext(ctx))
+	})
+}
+
+// RequireAdmin sadece admin rolündeki kullanıcıya izin verir.
+func (m *Manager) RequireAdmin(next http.Handler) http.Handler {
+	return m.RequireUser(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		u := UserFromContext(r.Context())
+		if u == nil || u.Role != store.RoleAdmin {
+			http.Error(w, &#34;yasak: bu işlem sadece yönetici tarafından yapılabilir&#34;, http.StatusForbidden)
+			return
+		}
+		next.ServeHTTP(w, r)
+	}))
+}
+</code></pre>
+				
+				
+			</article>
+			
+			<article class="file-preview" id="file-12">
+				<div class="file-preview-header">kodplatform/internal/auth/context.go</div>
+				<pre><code>package auth
+
+import (
+	&#34;context&#34;
+
+	&#34;kodplatform/internal/store&#34;
+)
+
+func WithUser(ctx context.Context, u *store.User) context.Context {
+	return context.WithValue(ctx, userCtxKey, u)
+}
+
+func UserFromContext(ctx context.Context) *store.User {
+	u, _ := ctx.Value(userCtxKey).(*store.User)
+	return u
+}
+</code></pre>
+				
+				
+			</article>
+			
+			<article class="file-preview" id="file-13">
+				<div class="file-preview-header">kodplatform/internal/gitserver/gitserver.go</div>
+				<pre><code>// Package gitserver, her proje için bir &#34;bare&#34; Git deposu oluşturur/siler
+// ve Git&#39;in kendi &#34;git-http-backend&#34; CGI programını kullanarak
+// clone/fetch/push işlemlerini &#34;smart HTTP&#34; protokolü üzerinden sunar.
+//
+// Bu, Gitea/Gogs gibi projelerin de temelde kullandığı, kanıtlanmış bir
+// yaklaşımdır: Go tarafında kimlik doğrulama &#43; yetkilendirme yapılır,
+// asıl git protokol mantığı ise git&#39;in kendi güvenilir binary&#39;sine
+// devredilir.
+package gitserver
+
+import (
+	&#34;fmt&#34;
+	&#34;net/http/cgi&#34;
+	&#34;os&#34;
+	&#34;os/exec&#34;
+	&#34;path/filepath&#34;
+)
+
+type Server struct {
+	ReposRoot      string // örn: /var/lib/kodplatform/repos
+	GitHTTPBackend string // örn: /usr/lib/git-core/git-http-backend
+}
+
+func New(reposRoot string) (*Server, error) {
+	// git-http-backend, GIT_PROJECT_ROOT&#39;u kendi çalışma dizinine göre değil
+	// mutlak (absolute) olarak yorumlar; bu yüzden yolu burada mutlaklaştırıyoruz.
+	abs, err := filepath.Abs(reposRoot)
+	if err != nil {
+		return nil, err
+	}
+	if err := os.MkdirAll(abs, 0755); err != nil {
+		return nil, err
+	}
+	path, err := findGitHTTPBackend()
+	if err != nil {
+		return nil, err
+	}
+	return &amp;Server{ReposRoot: abs, GitHTTPBackend: path}, nil
+}
+
+func findGitHTTPBackend() (string, error) {
+	candidates := []string{
+		&#34;/usr/lib/git-core/git-http-backend&#34;,
+		&#34;/usr/libexec/git-core/git-http-backend&#34;,
+	}
+	for _, c := range candidates {
+		if _, err := os.Stat(c); err == nil {
+			return c, nil
+		}
+	}
+	if p, err := exec.LookPath(&#34;git-http-backend&#34;); err == nil {
+		return p, nil
+	}
+	return &#34;&#34;, fmt.Errorf(&#34;git-http-backend bulunamadı; &#39;git&#39; paketinin kurulu olduğundan emin olun&#34;)
+}
+
+// repoDir, projenin bare deposunun disk yolunu döndürür: &lt;reposRoot&gt;/&lt;id&gt;.git
+func (s *Server) repoDir(projectID string) string {
+	return filepath.Join(s.ReposRoot, projectID&#43;&#34;.git&#34;)
+}
+
+// CreateRepo verilen proje için boş bir bare depo oluşturur.
+func (s *Server) CreateRepo(projectID string) error {
+	dir := s.repoDir(projectID)
+	if _, err := os.Stat(dir); err == nil {
+		return fmt.Errorf(&#34;depo zaten var: %s&#34;, dir)
+	}
+	cmd := exec.Command(&#34;git&#34;, &#34;init&#34;, &#34;--bare&#34;, dir)
+	if out, err := cmd.CombinedOutput(); err != nil {
+		return fmt.Errorf(&#34;git init --bare başarısız: %v (%s)&#34;, err, string(out))
+	}
+	// Bu depoyu &#34;export edilebilir&#34; işaretle; aksi halde git-http-backend
+	// GIT_HTTP_EXPORT_ALL olmadan reddeder.
+	f, err := os.Create(filepath.Join(dir, &#34;git-daemon-export-ok&#34;))
+	if err != nil {
+		return err
+	}
+	return f.Close()
+}
+
+// DeleteRepo projenin bare deposunu diskten kaldırır.
+func (s *Server) DeleteRepo(projectID string) error {
+	dir := s.repoDir(projectID)
+	if _, err := os.Stat(dir); os.IsNotExist(err) {
+		return nil
+	}
+	return os.RemoveAll(dir)
+}
+
+// Handler, git-http-backend&#39;i CGI olarak çalıştıran bir http.Handler döndürür.
+// remoteUser: git-http-backend&#39;e REMOTE_USER olarak geçirilecek, zaten kimliği
+// doğrulanmış kullanıcı adı (commit yazarı/loglama amaçlı).
+func (s *Server) Handler(remoteUser string) *cgi.Handler {
+	return &amp;cgi.Handler{
+		Path: s.GitHTTPBackend,
+		Root: &#34;/git&#34;,
+		Dir:  s.ReposRoot,
+		Env: []string{
+			&#34;GIT_PROJECT_ROOT=&#34; &#43; s.ReposRoot,
+			&#34;GIT_HTTP_EXPORT_ALL=1&#34;,
+			&#34;REMOTE_USER=&#34; &#43; remoteUser,
+		},
+	}
+}
+</code></pre>
+				
+				
+			</article>
+			
+			<article class="file-preview" id="file-14">
+				<div class="file-preview-header">kodplatform/internal/store/models.go</div>
+				<pre><code>package store
+
+import &#34;time&#34;
+
+// Role kullanıcının platform içindeki rolünü belirtir.
+type Role string
+
+const (
+	RoleAdmin     Role = &#34;admin&#34;     // Tek yönetici: proje açma/silme/düzenleme yetkisi
+	RoleDeveloper Role = &#34;developer&#34; // Kod yükler (git push/pull)
+	RoleDesigner  Role = &#34;designer&#34;  // Tasarım dosyası (3D model, çizim vb.) yükler
+)
+
+// User platformdaki bir kullanıcıyı temsil eder.
+type User struct {
+	Username     string `json:&#34;username&#34;`
+	PasswordHash string `json:&#34;password_hash&#34;` // sha256(salt&#43;password) hex
+	Salt         string `json:&#34;salt&#34;`
+	Role         Role   `json:&#34;role&#34;`
+	CreatedAt    time.Time `json:&#34;created_at&#34;`
+}
+
+// Project bir çalışma alanını (repo &#43; tasarım deposu) temsil eder.
+type Project struct {
+	ID          string    `json:&#34;id&#34;`          // slug, aynı zamanda klasör/repo adı
+	Name        string    `json:&#34;name&#34;`
+	Description string    `json:&#34;description&#34;`
+	Field       string    `json:&#34;field&#34;`        // çalışma alanı: &#34;mobil-uygulama&#34;, &#34;3d-oyun&#34; vb.
+	Members     []string  `json:&#34;members&#34;`      // izinli kullanıcı adları (admin her zaman erişebilir)
+	CreatedAt   time.Time `json:&#34;created_at&#34;`
+	UpdatedAt   time.Time `json:&#34;updated_at&#34;`
+}
+
+// HasMember kullanıcının bu projeye erişimi olup olmadığını kontrol eder.
+func (p *Project) HasMember(username string) bool {
+	for _, m := range p.Members {
+		if m == username {
+			return true
+		}
+	}
+	return false
+}
+</code></pre>
+				
+				
+			</article>
+			
+			<article class="file-preview" id="file-15">
+				<div class="file-preview-header">kodplatform/internal/store/store.go</div>
+				<pre><code>// Package store, kullanıcı ve proje verilerini basit JSON dosyalarında
+// tutan, eşzamanlılığa (concurrency) karşı kilitli (mutex) bir depolama
+// katmanı sağlar. Harici bir veritabanına ihtiyaç duymaz; küçük/orta
+// ölçekli bir ekip içi platform için yeterlidir.
+package store
+
+import (
+	&#34;crypto/rand&#34;
+	&#34;crypto/sha256&#34;
+	&#34;encoding/hex&#34;
+	&#34;encoding/json&#34;
+	&#34;errors&#34;
+	&#34;fmt&#34;
+	&#34;os&#34;
+	&#34;path/filepath&#34;
+	&#34;sync&#34;
+	&#34;time&#34;
+)
+
+var (
+	ErrNotFound      = errors.New(&#34;bulunamadı&#34;)
+	ErrAlreadyExists = errors.New(&#34;zaten mevcut&#34;)
+)
+
+type Store struct {
+	mu       sync.RWMutex
+	dataDir  string
+	users    map[string]*User
+	projects map[string]*Project
+}
+
+func New(dataDir string) (*Store, error) {
+	if err := os.MkdirAll(dataDir, 0755); err != nil {
+		return nil, err
+	}
+	s := &amp;Store{
+		dataDir:  dataDir,
+		users:    map[string]*User{},
+		projects: map[string]*Project{},
+	}
+	if err := s.load(); err != nil {
+		return nil, err
+	}
+	return s, nil
+}
+
+func (s *Store) usersPath() string    { return filepath.Join(s.dataDir, &#34;users.json&#34;) }
+func (s *Store) projectsPath() string { return filepath.Join(s.dataDir, &#34;projects.json&#34;) }
+
+func (s *Store) load() error {
+	if b, err := os.ReadFile(s.usersPath()); err == nil {
+		var list []*User
+		if err := json.Unmarshal(b, &amp;list); err != nil {
+			return fmt.Errorf(&#34;users.json okunamadı: %w&#34;, err)
+		}
+		for _, u := range list {
+			s.users[u.Username] = u
+		}
+	}
+	if b, err := os.ReadFile(s.projectsPath()); err == nil {
+		var list []*Project
+		if err := json.Unmarshal(b, &amp;list); err != nil {
+			return fmt.Errorf(&#34;projects.json okunamadı: %w&#34;, err)
+		}
+		for _, p := range list {
+			s.projects[p.ID] = p
+		}
+	}
+	return nil
+}
+
+// saveUsersLocked ve saveProjectsLocked, mu zaten kilitliyken çağrılmalıdır.
+func (s *Store) saveUsersLocked() error {
+	list := make([]*User, 0, len(s.users))
+	for _, u := range s.users {
+		list = append(list, u)
+	}
+	return writeJSONAtomic(s.usersPath(), list)
+}
+
+func (s *Store) saveProjectsLocked() error {
+	list := make([]*Project, 0, len(s.projects))
+	for _, p := range s.projects {
+		list = append(list, p)
+	}
+	return writeJSONAtomic(s.projectsPath(), list)
+}
+
+func writeJSONAtomic(path string, v interface{}) error {
+	b, err := json.MarshalIndent(v, &#34;&#34;, &#34;  &#34;)
+	if err != nil {
+		return err
+	}
+	tmp := path &#43; &#34;.tmp&#34;
+	if err := os.WriteFile(tmp, b, 0644); err != nil {
+		return err
+	}
+	return os.Rename(tmp, path)
+}
+
+// ---- Şifre yardımcıları ----
+
+func hashPassword(password, salt string) string {
+	h := sha256.Sum256([]byte(salt &#43; &#34;:&#34; &#43; password))
+	return hex.EncodeToString(h[:])
+}
+
+func newSalt() (string, error) {
+	b := make([]byte, 16)
+	if _, err := rand.Read(b); err != nil {
+		return &#34;&#34;, err
+	}
+	return hex.EncodeToString(b), nil
+}
+
+// ---- Kullanıcı işlemleri ----
+
+func (s *Store) CreateUser(username, password string, role Role) (*User, error) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	if _, ok := s.users[username]; ok {
+		return nil, ErrAlreadyExists
+	}
+	salt, err := newSalt()
+	if err != nil {
+		return nil, err
+	}
+	u := &amp;User{
+		Username:     username,
+		Salt:         salt,
+		PasswordHash: hashPassword(password, salt),
+		Role:         role,
+		CreatedAt:    time.Now(),
+	}
+	s.users[username] = u
+	if err := s.saveUsersLocked(); err != nil {
+		return nil, err
+	}
+	return u, nil
+}
+
+func (s *Store) DeleteUser(username string) error {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	if _, ok := s.users[username]; !ok {
+		return ErrNotFound
+	}
+	delete(s.users, username)
+	return s.saveUsersLocked()
+}
+
+func (s *Store) GetUser(username string) (*User, bool) {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	u, ok := s.users[username]
+	return u, ok
+}
+
+func (s *Store) ListUsers() []*User {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	list := make([]*User, 0, len(s.users))
+	for _, u := range s.users {
+		list = append(list, u)
+	}
+	return list
+}
+
+func (s *Store) VerifyPassword(username, password string) bool {
+	s.mu.RLock()
+	u, ok := s.users[username]
+	s.mu.RUnlock()
+	if !ok {
+		return false
+	}
+	return hashPassword(password, u.Salt) == u.PasswordHash
+}
+
+// ---- Proje işlemleri (sadece admin tarafında çağrılacak şekilde API&#39;de korunur) ----
+
+func (s *Store) CreateProject(id, name, description, field string, members []string) (*Project, error) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	if _, ok := s.projects[id]; ok {
+		return nil, ErrAlreadyExists
+	}
+	p := &amp;Project{
+		ID:          id,
+		Name:        name,
+		Description: description,
+		Field:       field,
+		Members:     members,
+		CreatedAt:   time.Now(),
+		UpdatedAt:   time.Now(),
+	}
+	s.projects[id] = p
+	if err := s.saveProjectsLocked(); err != nil {
+		return nil, err
+	}
+	return p, nil
+}
+
+func (s *Store) DeleteProject(id string) error {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	if _, ok := s.projects[id]; !ok {
+		return ErrNotFound
+	}
+	delete(s.projects, id)
+	return s.saveProjectsLocked()
+}
+
+// UpdateProject verilen alanları günceller (boş string/nil geçilirse değişmez).
+func (s *Store) UpdateProject(id string, name, description, field *string, members *[]string) (*Project, error) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	p, ok := s.projects[id]
+	if !ok {
+		return nil, ErrNotFound
+	}
+	if name != nil {
+		p.Name = *name
+	}
+	if description != nil {
+		p.Description = *description
+	}
+	if field != nil {
+		p.Field = *field
+	}
+	if members != nil {
+		p.Members = *members
+	}
+	p.UpdatedAt = time.Now()
+	if err := s.saveProjectsLocked(); err != nil {
+		return nil, err
+	}
+	return p, nil
+}
+
+func (s *Store) GetProject(id string) (*Project, bool) {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	p, ok := s.projects[id]
+	return p, ok
+}
+
+func (s *Store) ListProjects() []*Project {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	list := make([]*Project, 0, len(s.projects))
+	for _, p := range s.projects {
+		list = append(list, p)
+	}
+	return list
+}
+</code></pre>
+				
+				
+			</article>
+			
+			<article class="file-preview" id="file-16">
+				<div class="file-preview-header">kodplatform/kodplatform</div>
+				
+				
+				<a class="download" href="kodplatform/kodplatform" download>Download file</a>
+			</article>
+			
+			<article class="file-preview" id="file-17">
+				<div class="file-preview-header">kodplatform/kodplatform.zip</div>
+				
+				
+				<a class="download" href="kodplatform/kodplatform.zip" download>Download file</a>
+			</article>
+			
+		</section>
+  </main>
+</body>
+</html>

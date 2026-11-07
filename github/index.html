@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GoShare Wiki</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            background: #2c3e50;
+            color: white;
+            padding: 30px 0;
+            margin-bottom: 30px;
+            border-radius: 8px;
+        }
+        header h1 {
+            text-align: center;
+            font-size: 2.5rem;
+        }
+        header p {
+            text-align: center;
+            opacity: 0.8;
+            margin-top: 10px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+        }
+        .card h2 {
+            font-size: 1.3rem;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .card h2::before {
+            content: "📄";
+            font-size: 1.2rem;
+        }
+        .card p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+        .card a {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 20px;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+        .card a:hover {
+            background: #2980b9;
+        }
+        .sidebar-link {
+            background: #27ae60 !important;
+        }
+        .sidebar-link:hover {
+            background: #219a52 !important;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+        .empty-state h2 {
+            margin-bottom: 10px;
+            color: #666;
+        }
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #999;
+            font-size: 0.9rem;
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+            header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📚 GoShare Wiki</h1>
+            <p>Proje dokümantasyonu ve kılavuzları</p>
+        </header>
+
+        <div class="grid" id="wikiGrid">
+            <!-- Wiki kartları buraya JavaScript ile eklenecek -->
+        </div>
+
+        <footer>
+            <p>GoShare Wiki Index — Otomatik oluşturuldu</p>
+        </footer>
+    </div>
+
+    <script>
+        // Wiki dosyaları ve açıklamaları
+        const wikiPages = [
+            { file: '../wiki/Home.md', title: 'Ana Sayfa', description: 'Projeye genel bakış ve hızlı başlangıç bilgileri' },
+            { file: '../wiki/Quick-Start.md', title: 'Hızlı Başlangıç', description: 'GoShare\'i dakikalar içinde kurup çalıştırma rehberi' },
+            { file: '../wiki/Installation.md', title: 'Kurulum', description: 'Detaylı kurulum adımları ve sistem gereksinimleri' },
+            { file: '../wiki/Configuration.md', title: 'Yapılandırma', description: 'Config dosyaları, environment variables ve ayarlar' },
+            { file: '../wiki/Commands-Reference.md', title: 'Komut Referansı', description: 'Tüm CLI komutları ve parametrelerinin tam listesi' },
+            { file: '../wiki/Sharing-Projects.md', title: 'Proje Paylaşımı', description: 'Projeleri paylaşma, erişim kontrolü ve izinler' },
+            { file: '../wiki/Project-Structure.md', title: 'Proje Yapısı', description: 'Kod tabanı mimarisi ve dosya organizasyonu' },
+            { file: '../wiki/Development.md', title: 'Geliştirme', description: 'Katkıda bulunma rehberi, kod standartları ve workflow' },
+            { file: '../wiki/Publishing-with-Cloudflare.md', title: 'Cloudflare ile Yayınlama', description: 'Cloudflare Pages/Tunnels kullanarak production deployment' },
+            { file: '../wiki/Troubleshooting.md', title: 'Sorun Giderme', description: 'Yaygın hatalar, çözümleri ve debug ipuçları' },
+            { file: '../wiki/FAQ.md', title: 'SSS', description: 'Sık sorulan sorular ve cevapları' },
+            { file: '../wiki/_Sidebar.md', title: 'Yan Menü (Sidebar)', description: 'Wiki navigasyon menüsü yapısı', isSidebar: true }
+        ];
+
+        const grid = document.getElementById('wikiGrid');
+
+        wikiPages.forEach(page => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            
+            const linkClass = page.isSidebar ? 'sidebar-link' : '';
+            
+            card.innerHTML = `
+                <h2>${page.title}</h2>
+                <p>${page.description}</p>
+                <a href="${page.file}" class="${linkClass}" target="_blank">Görüntüle →</a>
+            `;
+            
+            grid.appendChild(card);
+        });
+
+        // Eğer wikiGrid boşsa (dosyalar bulunamazsa)
+        if (wikiPages.length === 0) {
+            grid.innerHTML = `
+                <div class="empty-state">
+                    <h2>Wiki sayfası bulunamadı</h2>
+                    <p>wiki klasöründe .md dosyası yok.</p>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>
