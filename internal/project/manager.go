@@ -12,16 +12,38 @@ import (
 
 	"github.com/common-nighthawk/go-figure"
 	"github.com/fatih/color"
+	"github.com/go-git/go-git/v5"
+	"github.com/go-git/go-git/v5/plumbing"
+	"github.com/go-git/go-git/v5/plumbing/object"
+	"github.com/go-git/go-git/v5/plumbing/storer"
 	cp "github.com/n-marshall/go-cp"
 )
 
 type Project struct {
-	Name      string    `json:"name"`
-	Summary   string    `json:"summary"`
-	CreatedAt time.Time `json:"created_at"`
-	UpdatedAt time.Time `json:"updated_at"`
-	Path      string    `json:"path"`
-	IndexHTML string    `json:"index_html"`
+	Name        string    `json:"name"`
+	Summary     string    `json:"summary"`
+	CreatedAt   time.Time `json:"created_at"`
+	UpdatedAt   time.Time `json:"updated_at"`
+	Path        string    `json:"path"`
+	IndexHTML   string    `json:"index_html"`
+	GitEnabled  bool      `json:"git_enabled"`
+	Collaborators []string `json:"collaborators,omitempty"`
+}
+
+type CommitInfo struct {
+	Hash      string    `json:"hash"`
+	Message   string    `json:"message"`
+	Author    string    `json:"author"`
+	Email     string    `json:"email"`
+	Timestamp time.Time `json:"timestamp"`
+	Files     []string  `json:"files"`
+}
+
+type Collaborator struct {
+	Name     string    `json:"name"`
+	Email    string    `json:"email"`
+	Role     string    `json:"role"` // owner, contributor, viewer
+	AddedAt  time.Time `json:"added_at"`
 }
 
 type Manager struct {
@@ -320,4 +342,485 @@ func (m *Manager) PrintBanner() {
 	myFigure.Print()
 	color.Cyan("Lightweight project sharing tool")
 	fmt.Println()
+}
+
+// ============ VERSION CONTROL (Git) ============
+
+func (m *Manager) GitInit(name string) error {
+	project, err := m.loadProject(name)
+	if err != nil {
+		return err
+	}
+
+	repoPath := project.Path
+	_, err = git.PlainInit(repoPath, false)
+	if err != nil {
+		return fmt.Errorf("failed to initialize git repository: %w", err)
+	}
+
+	// Create initial commit
+	repo, err := git.PlainOpen(repoPath)
+	if err != nil {
+		return fmt.Errorf("failed to open git repository: %w", err)
+	}
+
+	worktree, err := repo.Worktree()
+	if err != nil {
+		return fmt.Errorf("failed to get worktree: %w", err)
+	}
+
+	// Add all files
+	_, err = worktree.Add(".")
+	if err != nil {
+		return fmt.Errorf("failed to add files: %w", err)
+	}
+
+	// Commit
+	_, err = worktree.Commit("Initial commit", &git.CommitOptions{
+		Author: &object.Signature{
+			Name:  "GoShare User",
+			Email: "user@goshare.local",
+			When:  time.Now(),
+		},
+	})
+	if err != nil {
+		return fmt.Errorf("failed to create initial commit: %w", err)
+	}
+
+	project.GitEnabled = true
+	project.UpdatedAt = time.Now()
+	return m.saveProject(project)
+}
+
+func (m *Manager) GitStatus(name string) (string, error) {
+	project, err := m.loadProject(name)
+	if err != nil {
+		return "", err
+	}
+
+	if !project.GitEnabled {
+		return "", fmt.Errorf("git not initialized for this project. Run 'goshare git init %s' first", name)
+	}
+
+	repo, err := git.PlainOpen(project.Path)
+	if err != nil {
+		return "", fmt.Errorf("failed to open git repository: %w", err)
+	}
+
+	worktree, err := repo.Worktree()
+	if err != nil {
+		return "", fmt.Errorf("failed to get worktree: %w", err)
+	}
+
+	status, err := worktree.Status()
+	if err != nil {
+		return "", fmt.Errorf("failed to get status: %w", err)
+	}
+
+	var builder strings.Builder
+	if status.IsClean() {
+		builder.WriteString("Working tree clean\n")
+	} else {
+		for file, fileStatus := range status {
+			builder.WriteString(fmt.Sprintf("%s %s\n", fileStatus.Worktree, file))
+		}
+	}
+	return builder.String(), nil
+}
+
+func (m *Manager) GitAdd(name string, files []string) error {
+	project, err := m.loadProject(name)
+	if err != nil {
+		return err
+	}
+
+	if !project.GitEnabled {
+		return fmt.Errorf("git not initialized for this project")
+	}
+
+	repo, err := git.PlainOpen(project.Path)
+	if err != nil {
+		return fmt.Errorf("failed to open git repository: %w", err)
+	}
+
+	worktree, err := repo.Worktree()
+	if err != nil {
+		return fmt.Errorf("failed to get worktree: %w", err)
+	}
+
+	for _, file := range files {
+		_, err = worktree.Add(file)
+		if err != nil {
+			return fmt.Errorf("failed to add %s: %w", file, err)
+		}
+	}
+	return nil
+}
+
+func (m *Manager) GitCommit(name, message string) error {
+	project, err := m.loadProject(name)
+	if err != nil {
+		return err
+	}
+
+	if !project.GitEnabled {
+		return fmt.Errorf("git not initialized for this project")
+	}
+
+	if message == "" {
+		return fmt.Errorf("commit message is required")
+	}
+
+	repo, err := git.PlainOpen(project.Path)
+	if err != nil {
+		return fmt.Errorf("failed to open git repository: %w", err)
+	}
+
+	worktree, err := repo.Worktree()
+	if err != nil {
+		return fmt.Errorf("failed to get worktree: %w", err)
+	}
+
+	_, err = worktree.Commit(message, &git.CommitOptions{
+		Author: &object.Signature{
+			Name:  "GoShare User",
+			Email: "user@goshare.local",
+			When:  time.Now(),
+		},
+	})
+	if err != nil {
+		return fmt.Errorf("failed to commit: %w", err)
+	}
+
+	project.UpdatedAt = time.Now()
+	return m.saveProject(project)
+}
+
+func (m *Manager) GitLog(name string, limit int) ([]CommitInfo, error) {
+	project, err := m.loadProject(name)
+	if err != nil {
+		return nil, err
+	}
+
+	if !project.GitEnabled {
+		return nil, fmt.Errorf("git not initialized for this project")
+	}
+
+	repo, err := git.PlainOpen(project.Path)
+	if err != nil {
+		return nil, fmt.Errorf("failed to open git repository: %w", err)
+	}
+
+	iter, err := repo.Log(&git.LogOptions{Order: git.LogOrderCommitterTime})
+	if err != nil {
+		return nil, fmt.Errorf("failed to get log: %w", err)
+	}
+
+	var commits []CommitInfo
+	count := 0
+	err = iter.ForEach(func(c *object.Commit) error {
+		if limit > 0 && count >= limit {
+			return storer.ErrStop
+		}
+
+		var files []string
+		tree, err := c.Tree()
+		if err == nil {
+			parentCommit, err := c.Parent(0)
+			if err == nil {
+				parentTree, err := parentCommit.Tree()
+				if err == nil && parentTree != nil {
+					changes, _ := tree.Diff(parentTree)
+					for _, change := range changes {
+						files = append(files, change.To.Name)
+					}
+				}
+			}
+		}
+
+		commits = append(commits, CommitInfo{
+			Hash:      c.Hash.String()[:8],
+			Message:   strings.Split(c.Message, "\n")[0],
+			Author:    c.Author.Name,
+			Email:     c.Author.Email,
+			Timestamp: c.Author.When,
+			Files:     files,
+		})
+		count++
+		return nil
+	})
+
+	return commits, nil
+}
+
+func (m *Manager) GitDiff(name, file string) (string, error) {
+	project, err := m.loadProject(name)
+	if err != nil {
+		return "", err
+	}
+
+	if !project.GitEnabled {
+		return "", fmt.Errorf("git not initialized for this project")
+	}
+
+	repo, err := git.PlainOpen(project.Path)
+	if err != nil {
+		return "", fmt.Errorf("failed to open git repository: %w", err)
+	}
+
+	worktree, err := repo.Worktree()
+	if err != nil {
+		return "", fmt.Errorf("failed to get worktree: %w", err)
+	}
+
+	status, err := worktree.Status()
+	if err != nil {
+		return "", fmt.Errorf("failed to get status: %w", err)
+	}
+
+	var builder strings.Builder
+	for f, fileStatus := range status {
+		if file != "" && f != file {
+			continue
+		}
+		if fileStatus.Worktree != git.Unmodified {
+			builder.WriteString(fmt.Sprintf("Changes in %s:\n", f))
+			// Note: Full diff requires more complex implementation
+			builder.WriteString(fmt.Sprintf("  Status: %s\n", fileStatus.Worktree))
+		}
+	}
+	return builder.String(), nil
+}
+
+func (m *Manager) GitBranch(name string) ([]string, error) {
+	project, err := m.loadProject(name)
+	if err != nil {
+		return nil, err
+	}
+
+	if !project.GitEnabled {
+		return nil, fmt.Errorf("git not initialized for this project")
+	}
+
+	repo, err := git.PlainOpen(project.Path)
+	if err != nil {
+		return nil, fmt.Errorf("failed to open git repository: %w", err)
+	}
+
+	branches, err := repo.Branches()
+	if err != nil {
+		return nil, fmt.Errorf("failed to get branches: %w", err)
+	}
+
+	var branchNames []string
+	err = branches.ForEach(func(ref *plumbing.Reference) error {
+		branchNames = append(branchNames, ref.Name().Short())
+		return nil
+	})
+	return branchNames, nil
+}
+
+func (m *Manager) GitCheckout(name, branch string) error {
+	project, err := m.loadProject(name)
+	if err != nil {
+		return err
+	}
+
+	if !project.GitEnabled {
+		return fmt.Errorf("git not initialized for this project")
+	}
+
+	repo, err := git.PlainOpen(project.Path)
+	if err != nil {
+		return fmt.Errorf("failed to open git repository: %w", err)
+	}
+
+	worktree, err := repo.Worktree()
+	if err != nil {
+		return fmt.Errorf("failed to get worktree: %w", err)
+	}
+
+	err = worktree.Checkout(&git.CheckoutOptions{
+		Branch: plumbing.NewBranchReferenceName(branch),
+		Create: false,
+	})
+	if err != nil {
+		return fmt.Errorf("failed to checkout branch: %w", err)
+	}
+	return nil
+}
+
+func (m *Manager) GitCreateBranch(name, branch string) error {
+	project, err := m.loadProject(name)
+	if err != nil {
+		return err
+	}
+
+	if !project.GitEnabled {
+		return fmt.Errorf("git not initialized for this project")
+	}
+
+	repo, err := git.PlainOpen(project.Path)
+	if err != nil {
+		return fmt.Errorf("failed to open git repository: %w", err)
+	}
+
+	worktree, err := repo.Worktree()
+	if err != nil {
+		return fmt.Errorf("failed to get worktree: %w", err)
+	}
+
+	err = worktree.Checkout(&git.CheckoutOptions{
+		Branch: plumbing.NewBranchReferenceName(branch),
+		Create: true,
+	})
+	if err != nil {
+		return fmt.Errorf("failed to create branch: %w", err)
+	}
+	return nil
+}
+
+// ============ COLLABORATION ============
+
+func (m *Manager) AddCollaborator(name, collaboratorName, email, role string) error {
+	project, err := m.loadProject(name)
+	if err != nil {
+		return err
+	}
+
+	if project.Collaborators == nil {
+		project.Collaborators = []string{}
+	}
+
+	// Check if already exists
+	for _, c := range project.Collaborators {
+		if c == email {
+			return fmt.Errorf("collaborator %s already exists", email)
+		}
+	}
+
+	project.Collaborators = append(project.Collaborators, email)
+	project.UpdatedAt = time.Now()
+	return m.saveProject(project)
+}
+
+func (m *Manager) RemoveCollaborator(name, email string) error {
+	project, err := m.loadProject(name)
+	if err != nil {
+		return err
+	}
+
+	newCollaborators := []string{}
+	found := false
+	for _, c := range project.Collaborators {
+		if c != email {
+			newCollaborators = append(newCollaborators, c)
+		} else {
+			found = true
+		}
+	}
+
+	if !found {
+		return fmt.Errorf("collaborator %s not found", email)
+	}
+
+	project.Collaborators = newCollaborators
+	project.UpdatedAt = time.Now()
+	return m.saveProject(project)
+}
+
+func (m *Manager) ListCollaborators(name string) ([]string, error) {
+	project, err := m.loadProject(name)
+	if err != nil {
+		return nil, err
+	}
+	return project.Collaborators, nil
+}
+
+// ============ HISTORY ============
+
+func (m *Manager) GetHistory(name string, limit int) ([]CommitInfo, error) {
+	return m.GitLog(name, limit)
+}
+
+func (m *Manager) ShowCommit(name, hash string) (*CommitInfo, error) {
+	project, err := m.loadProject(name)
+	if err != nil {
+		return nil, err
+	}
+
+	if !project.GitEnabled {
+		return nil, fmt.Errorf("git not initialized for this project")
+	}
+
+	repo, err := git.PlainOpen(project.Path)
+	if err != nil {
+		return nil, fmt.Errorf("failed to open git repository: %w", err)
+	}
+
+	commitHash := plumbing.NewHash(hash)
+	commit, err := repo.CommitObject(commitHash)
+	if err != nil {
+		return nil, fmt.Errorf("commit not found: %w", err)
+	}
+
+	var files []string
+	tree, err := commit.Tree()
+	if err == nil {
+		parentCommit, err := commit.Parent(0)
+		if err == nil {
+			parentTree, err := parentCommit.Tree()
+			if err == nil && parentTree != nil {
+				changes, _ := tree.Diff(parentTree)
+				for _, change := range changes {
+					files = append(files, change.To.Name)
+				}
+			}
+		}
+	}
+
+	return &CommitInfo{
+		Hash:      commit.Hash.String(),
+		Message:   commit.Message,
+		Author:    commit.Author.Name,
+		Email:     commit.Author.Email,
+		Timestamp: commit.Author.When,
+		Files:     files,
+	}, nil
+}
+
+func (m *Manager) ExportHistory(name, format string) (string, error) {
+	commits, err := m.GitLog(name, 0)
+	if err != nil {
+		return "", err
+	}
+
+	switch format {
+	case "json":
+		data, err := json.MarshalIndent(commits, "", "  ")
+		return string(data), err
+	case "markdown", "md":
+		var builder strings.Builder
+		builder.WriteString("# Project History\n\n")
+		for _, c := range commits {
+			builder.WriteString(fmt.Sprintf("## %s - %s\n", c.Hash, c.Timestamp.Format("2006-01-02 15:04")))
+			builder.WriteString(fmt.Sprintf("**Author:** %s <%s>\n\n", c.Author, c.Email))
+			builder.WriteString(fmt.Sprintf("%s\n\n", c.Message))
+			if len(c.Files) > 0 {
+				builder.WriteString("**Files:**\n")
+				for _, f := range c.Files {
+					builder.WriteString(fmt.Sprintf("- %s\n", f))
+				}
+				builder.WriteString("\n")
+			}
+			builder.WriteString("---\n\n")
+		}
+		return builder.String(), nil
+	default:
+		var builder strings.Builder
+		for _, c := range commits {
+			builder.WriteString(fmt.Sprintf("%s %s %s <%s> %s\n", c.Hash, c.Timestamp.Format("2006-01-02"), c.Author, c.Email, c.Message))
+		}
+		return builder.String(), nil
+	}
 }
